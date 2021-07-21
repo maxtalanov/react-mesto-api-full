@@ -1,0 +1,15 @@
+.navbar__title {
+  font-family: Inter;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: right;
+  color: #FFFFFF;
+
+  margin: 6px 0 46px;
+  padding: 0;
+
+  background: none;
+  border: none;
+}
