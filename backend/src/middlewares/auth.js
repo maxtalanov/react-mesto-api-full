@@ -4,13 +4,15 @@ const { JWT_SECRET = 'some-secret-key' } = process.env;
 const ForbiddenErrors = require('../errors/forbidden-err');
 
 module.exports = (req, res, next) => {
-  const { authorization } = req.headers;
+  // const { authorization } = req.headers;
+  const cookiesJWT = req.cookies.jwt;
+  console.log(cookiesJWT, 'cookies');
 
-  if (!authorization || !authorization.startsWith('Bearer ')) {
+  if (!cookiesJWT) {
     throw new ForbiddenErrors('Необходима авторизация');
   }
 
-  const token = authorization.replace('Bearer ', '');
+  const token = cookiesJWT.replace('Bearer ', '');
   let payload;
 
   try {

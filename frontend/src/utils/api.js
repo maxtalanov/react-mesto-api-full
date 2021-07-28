@@ -1,22 +1,16 @@
 const onError = res => res.ok  ? res.json() : Promise.reject(`Ошибка: ${res.status} - ${res.statusText}.`);
-
+console.log(localStorage.getItem('jwt'));
 export class Api {
   constructor(config) {
     this._url = config.baseUrl;
     this._headers = config.headers;
-
-    this._groupID = 'cohort-20';
-    // console.log(this._headers);
-  }
-
-  //0. Метод: Отвечает за работу синхронной выгрузки информации
-  getAllInfo() {
-    return Promise.all([this.getInfoUser(), this.getIntalCards()])
+    this._cookie = config.credentials;
   }
 
   //1. Мето получения информации о пользователе
   getInfoUser() {
-    return fetch(`${this._url}/${this._groupID}/users/me`, {
+    return fetch(`${this._url}/users/me`, {
+      credentials: 'include',
       method: "GET",
       headers: this._headers
     }).then(onError)
@@ -24,7 +18,8 @@ export class Api {
 
   //2. Метод получения масива карточек
   getIntalCards() {
-    return fetch(`${this._url}/${this._groupID}/cards`, {
+    return fetch(`${this._url}/cards`, {
+      credentials: 'include',
       method: "GET",
       headers: this._headers
     }).then(onError)
@@ -33,7 +28,8 @@ export class Api {
   //3. Метод редактирования профиля
   editYourProfile(editDataUser) {
     //console.log(editDataUser, 'API 3');
-    return fetch(`${this._url}/${this._groupID}/users/me`, {
+    return fetch(`${this._url}/users/me`, {
+      credentials: 'include',
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
@@ -46,7 +42,8 @@ export class Api {
   //4. Метод добавления новой карточки
   addNewCard(data) {
     //console.log(data, 'API 4');
-    return fetch(`${this._url}/${this._groupID}/cards`, {
+    return fetch(`${this._url}/cards`, {
+      credentials: 'include',
       method: "POST",
       headers: this._headers,
       body: JSON.stringify(data)
@@ -56,7 +53,8 @@ export class Api {
   //5. Метод удаления карточки
   removeCard(id) {
      // console.log(id)
-    return fetch(`${this._url}/${this._groupID}/cards/${id}`, { //тут НАДО ПОПРАВИТЬ БУДЕТ ССЫЛКУ
+    return fetch(`${this._url}/cards/${id}`, {
+      credentials: 'include',
       method: "DELETE",
       headers: this._headers
     }).then(onError)
@@ -65,7 +63,8 @@ export class Api {
   //6. Метод: Постановка лайка
   addLike(id) {
     // console.log(`api 6 => Передача ID:${id} лайка на сервер`);
-    return fetch(`${this._url}/${this._groupID}/cards/likes/${id}`, {
+    return fetch(`${this._url}/cards/likes/${id}`, {
+      credentials: 'include',
       method: "PUT",
       headers: this._headers
     }).then(onError)
@@ -74,7 +73,8 @@ export class Api {
   //7. Метод: Cнятие лайка
   removeLike(id) {
     // console.log('api 6');
-    return fetch(`${this._url}/${this._groupID}/cards/likes/${id}`, {
+    return fetch(`${this._url}/cards/likes/${id}`, {
+      credentials: 'include',
       method: "DELETE",
       headers: this._headers
     }).then(onError)
@@ -83,7 +83,8 @@ export class Api {
   //8. Метод Изменения аватара
   upAvatar(editDataUser) {
     // console.log(editDataUser, 'api 8');
-    return fetch(`${this._url}/${this._groupID}/users/me/avatar`, {
+    return fetch(`${this._url}/users/me/avatar`, {
+      credentials: 'include',
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
@@ -93,19 +94,23 @@ export class Api {
 
   //9. Метод: постановки и снятия лайка
   changeLikeCardStatus(cardID, like) {
-    //console.log(cardID, like);
+    console.log(cardID, like);
+    console.log('token', this._headers);
     // Обычная реализация: 2 разных метода для удаления и постановки лайка.
-    return fetch(`${this._url}/${this._groupID}/cards/likes/${cardID}`, {
+    return fetch(`${this._url}/cards/${cardID}/likes`, {
+      credentials: 'include',
       method: like ? 'PUT' : 'DELETE',
       headers: this._headers,
     }).then(onError)
   }
 }
 
+const jwt = localStorage.getItem('jwt');
 const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1',
+  baseUrl: 'http://localhost:3000',
+  credentials: 'include',
   headers: {
-    authorization: '812904d9-0b6e-4749-b7a8-56c99ef1e2b9',
+    //authorization: `Bearer ${jwt}`,
     'Content-Type': 'application/json'
   }
 });

@@ -177,8 +177,7 @@ function App() {
     return ApiAuth
       .authorize(data)
       .then(({ token }) => {
-        // console.log(`Авторизации пройдена, log: ${token}`);
-
+        console.log(`Авторизации пройдена, log: ${token}`);
         localStorage.setItem('jwt', token);
         setLoggedIn(true);
         setEmail(data.email);
@@ -216,13 +215,13 @@ function App() {
 
   const tokenCheck = () => {
 
-    const jwt = localStorage.getItem('jwt');
-    if (!jwt) {
-      return;
-    }
+    // const jwt = localStorage.getItem('jwt');
+    // if (!jwt) {
+    //   return;
+    // }
 
     ApiAuth
-      .getContent(jwt)
+      .getContent()
       .then((data) => {
         setEmail(data.data.email);
         setLoggedIn(true);

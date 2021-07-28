@@ -9,7 +9,7 @@ module.exports.createCard = (req, res, next) => {
   const { _id } = req.user;
 
   Card.create({ name, link, owner: _id })
-    .then((card) => res.status(200).send({ card }))
+    .then((card) => res.status(200).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestErrors('Переданы некорректные данные карточки'));
@@ -20,7 +20,7 @@ module.exports.createCard = (req, res, next) => {
 // 2. Запрос на получение всех карточек
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .then((card) => res.status(200).send({ card }))
+    .then((card) => res.status(200).send(card))
     .catch((err) => {
       if (err.name === 'CastError') {
         next(new NotFoundError('Запрошенные карточки не найдены'));
@@ -53,16 +53,19 @@ module.exports.deleteCard = (req, res, next) => {
 
 // 3. Запрос на добавление лайка карточке
 module.exports.addLikesCard = (req, res, next) => {
-  const { _id } = req.user;
+  const {
+    _id, name, about, avatar,
+  } = req.user;
+  console.log('id', req.user);
   const { cardId } = req.params;
-
   Card.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: _id } },
     { new: true },
   )
+    .populate(['likes'])
     .orFail(new Error('NotValidID'))
-    .then((cardNew) => res.status(200).send({ cardNew }))
+    .then((card) => res.status(200).send(card))
     .catch((err) => {
       if (err.message === 'NotValidID') {
         next(new NotFoundError('Карточка с таким ID не найдена в базе'));

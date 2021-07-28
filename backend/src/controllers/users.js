@@ -81,7 +81,7 @@ module.exports.upDateUser = (req, res, next) => {
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(_id, { name, about }, opts)
-    .then((newUser) => res.status(200).send({ newUser }))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestErrors('Переданы некорректные данные пользователя'));
@@ -95,7 +95,7 @@ module.exports.upDataUserAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
   User.findByIdAndUpdate(_id, { avatar }, opts)
-    .then((newUser) => res.status(200).send({ newUser }))
+    .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestErrors('Переданы некорректные данные пользователя'));
@@ -122,7 +122,9 @@ module.exports.login = (req, res, next) => {
     })
     .then((user) => {
       const token = jwt.sign(
-        { _id: user._id },
+        {
+          _id: user._id, name: user.name, avatar: user.avatar, about: user.about,
+        },
         'some-secret-key',
         { expiresIn: '7d' },
       );
@@ -132,7 +134,7 @@ module.exports.login = (req, res, next) => {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
         })
-        .send({ message: 'Авторизация успешно пройдена' });
+        .send({ message: 'Авторизация успешно пройдена', token });
     })
     .catch(() => {
       next(new Conflict('Неверный email или пароль'));

@@ -2,9 +2,12 @@ const checkResponse = res => res.ok  ? res.json() : Promise.reject(`Ошибка
 const headers = {
   'Accept': 'application/json',
   'Content-Type': 'application/json',
+  'Access-Control-Allow-Credentials': true,
 };
 
-export const BASE_URL = 'https://auth.nomoreparties.co';
+//export const BASE_URL = 'https://auth.nomoreparties.co';
+//export const BASE_URL = 'http://api.mesto-yp.nomoredomains.club';
+export const BASE_URL = 'http://localhost:3000';
 
 
   // 1. Регистрация пользователя.
@@ -31,10 +34,11 @@ export const authorize = ({email, password}) => {
 export const getContent = (jwt) => {
   // console.log(`ApiAuth (func 3)| token: ${jwt}`);
   return fetch(`${BASE_URL}/users/me`, {
+    credentials: 'include',
     method: "GET",
     headers: {
       ...headers,
-      'Authorization': `Bearer ${jwt}`
+      //'Authorization': `Bearer ${jwt}`
     }
   }).then(checkResponse)
 }
