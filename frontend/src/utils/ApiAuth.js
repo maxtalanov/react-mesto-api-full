@@ -5,7 +5,7 @@ const headers = {
   'Access-Control-Allow-Credentials': true,
 };
 
-export const BASE_URL = 'https://auth.nomoreparties.co';
+export const BASE_URL = 'https://auth.nomoreparties.club';
 //export const BASE_URL = 'http://api.mesto-yp.nomoredomains.club';
 // export const BASE_URL = 'http://localhost:3000';
 
