@@ -107,11 +107,12 @@ export class Api {
 
 const jwt = localStorage.getItem('jwt');
 const api = new Api({
-  baseUrl: 'http://localhost:3000',
+  baseUrl: 'https://auth.nomoreparties.co',
   credentials: 'include',
   headers: {
     //authorization: `Bearer ${jwt}`,
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json'7880648maX\
+
   }
 });
 
