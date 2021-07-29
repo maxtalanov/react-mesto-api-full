@@ -111,8 +111,7 @@ const api = new Api({
   credentials: 'include',
   headers: {
     //authorization: `Bearer ${jwt}`,
-    'Content-Type': 'application/json'7880648maX\
-
+    'Content-Type': 'application/json'
   }
 });
 
