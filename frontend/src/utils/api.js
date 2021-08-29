@@ -110,7 +110,7 @@ const api = new Api({
   baseUrl: 'https://auth.nomoreparties.club',
   credentials: 'include',
   headers: {
-    //authorization: `Bearer ${jwt}`,
+    authorization: `Bearer ${jwt}`,
     'Content-Type': 'application/json'
   }
 });

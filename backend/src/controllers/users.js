@@ -104,44 +104,6 @@ module.exports.upDataUserAvatar = (req, res, next) => {
 };
 
 // 6. Запрос авторизации пользователя;
-module.exports.login = (req, res, next) => {
-  const { email, password } = req.body;
-
-  User.findOne({ email }).select('+password')
-    .then((user) => {
-      if (!user) {
-        next(new NotFoundError('Запрошенный пользователь не найден'));
-      }
-      return bcrypt.compare(password, user.password)
-        .then((isMatched) => {
-          if (!isMatched) {
-            next(new UnauthorizedErrors('Неверный email или пароль'));
-          }
-          return user;
-        });
-    })
-    .then((user) => {
-      const token = jwt.sign(
-        {
-          _id: user._id, name: user.name, avatar: user.avatar, about: user.about,
-        },
-        'some-secret-key',
-        { expiresIn: '7d' },
-      );
-      return res
-        .status(201)
-        .cookie('jwt', token, {
-          maxAge: 3600000 * 24 * 7,
-          httpOnly: true,
-          sameSite: 'None',
-          secure: true,
-        })
-        .send({ message: 'Авторизация успешно пройдена', token });
-    })
-    .catch(() => {
-      next(new Conflict('Неверный email или пароль'));
-    });
-};
 
 // 7. Запрос на получение данных авторизованного пользователя;
 module.exports.getUserMe = (req, res, next) => {
