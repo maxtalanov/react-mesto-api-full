@@ -5,9 +5,9 @@ const headers = {
   'Access-Control-Allow-Credentials': true,
 };
 
-export const BASE_URL = 'https://api.mesto-new.nomoredomains.club';
-//export const BASE_URL = 'http://api.mesto-new.nomoredomains.club';
-// export const BASE_URL = 'http://localhost:3000';
+// export const BASE_URL = 'https://api.mesto-new.nomoredomains.club';
+export const BASE_URL = 'http://api.mesto-new.nomoredomains.club';
+// export const BASE_URL = 'http://localhost:3000';7
 
 
   // 1. Регистрация пользователя.
