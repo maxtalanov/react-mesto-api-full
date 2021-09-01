@@ -3,9 +3,12 @@
   
 ## Данные ресурса:
 
-##### link 
-###### https://mesto-yp.nomoredomains.club/profile
-###### http://mesto-yp.nomoredomains.club/profile
+##### link : frontend
+###### https://mesto-yp.nomoredomains.club/ (временно не доступна, пока кер бот не снимет ограничительные меры в отношение нашего домена)
+###### http://mesto-new.nomoredomains.club/
+
+##### link : backend
+###### http://api.mesto-new.nomoredomains.club
 
 ##### IP 
-###### 178.154.241.153
+###### 178.154.220.31
