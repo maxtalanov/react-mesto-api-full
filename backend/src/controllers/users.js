@@ -152,3 +152,8 @@ module.exports.getUserMe = (req, res, next) => {
       next(new UnauthorizedErrors('Неправильный ID пользователя'));
     });
 };
+
+// 8. Запрос на выход пользователя из системы
+module.exports.exit = (req, res) => {
+  res.clearCookie('jwt').status(200).send({ message: 'Успешный выход' });
+};

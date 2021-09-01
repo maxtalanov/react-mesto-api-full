@@ -4,7 +4,7 @@ const validator = require('validator');
 const auth = require('../middlewares/auth');
 
 const {
-  getUser, getUsers, createUser, upDateUser, upDataUserAvatar, login, getUserMe,
+  getUser, getUsers, createUser, upDateUser, upDataUserAvatar, login, getUserMe, exit,
 } = require('../controllers/users');
 
 // 0.1: метод проверки URL на валидность;
@@ -73,5 +73,8 @@ router.post('/signup', celebrate({
     password: Joi.string().required().min(8),
   }),
 }), createUser);
+
+// 9. Выход пользователя
+router.get('/exit', auth, exit);
 
 module.exports = router;
