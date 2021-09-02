@@ -107,8 +107,8 @@ export class Api {
 
 const jwt = localStorage.getItem('jwt');
 const api = new Api({
-  // baseUrl: 'https://api.mesto-new.nomoredomains.club',
-  baseUrl: 'http://api.mesto-new.nomoredomains.club',
+  baseUrl: 'https://api.mesto-new.nomoredomains.club',
+  // baseUrl: 'http://api.mesto-new.nomoredomains.club',
   // baseUrl: 'http://localhost:3000'',
   credentials: 'include',
   headers: {

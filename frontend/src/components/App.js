@@ -29,6 +29,22 @@ function App() {
   const [selectedCard, setSelectedCard] = React.useState({});
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards , setCards] = React.useState([]);
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [email , setEmail] = React.useState('')
+  const [registerOk, setRegisterOk] = React.useState(false);
+  const [registerError, setRegisterError] = React.useState(false)
+  const history =  useHistory();
+
+  React.useEffect(() => {
+    tokenCheck()
+    console.log('token ok');
+  }, []);
+
+  React.useEffect(() => {
+    if (loggedIn) {
+      history.push('/profile');
+    }
+  }, [history, loggedIn]);
 
     //Карточки инит
   React.useEffect(()=> {
@@ -44,10 +60,11 @@ function App() {
       })
   }, []);
 
-    //Информация о пользователе
+  //Информация о пользователе
   React.useEffect(() => {
     api.getInfoUser(currentUser)
       .then(currentUser => {
+        setEmail(currentUser.email)
         setCurrentUser(currentUser)
       })
       .catch((err) => {
@@ -55,6 +72,22 @@ function App() {
         console.log(`Проверьте причину в справочнике по адресу: ${directoryHTTP}`)
       })
   },[])
+
+  // Проверка токена на сервере
+  const tokenCheck = () => {
+
+    ApiAuth
+      .getContent()
+      .then((data) => {
+        setLoggedIn(true);
+      })
+      .catch((err) => {
+        setRegisterError(true);
+
+        console.log('Код ошибки:', err);
+        console.log(`Справочник ошибок ${directoryHTTP}`)
+      });
+  };
 
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
@@ -154,23 +187,6 @@ function App() {
     history.push('sign-in');
   }
 
-  // #АВТОРИЗИЦИЯ #АВТОРИЗИЦИЯ #АВТОРИЗИЦИЯ #АВТОРИЗИЦИЯ #АВТОРИЗИЦИЯ #АВТОРИЗИЦИЯ
-  const [loggedIn, setLoggedIn] = React.useState(false);
-  const [email , setEmail] = React.useState('')
-  const [registerOk, setRegisterOk] = React.useState(false);
-  const [registerError, setRegisterError] = React.useState(false)
-  const history =  useHistory();
-
-  React.useEffect(() => {
-    tokenCheck();
-  }, []);
-
-  React.useEffect(() => {
-    if (loggedIn) {
-      history.push('/profile');
-    }
-  }, [history, loggedIn]);
-
   const onLogin = (data) => {
     // console.log(`Попытка авторизации, log: ${data}`)
 
@@ -208,23 +224,12 @@ function App() {
   }
 
   const onLogout = () => {
-    setLoggedIn(false);
-    setEmail('');
-    localStorage.removeItem('jwt');
-  }
-
-  const tokenCheck = () => {
-
-    // const jwt = localStorage.getItem('jwt');
-    // if (!jwt) {
-    //   return;
-    // }
-
     ApiAuth
-      .getContent()
-      .then((data) => {
-        setEmail(data.data.email);
-        setLoggedIn(true);
+      .userExit()
+      .then(message => {
+        setLoggedIn(false);
+        setEmail('');
+        console.log(message)
       })
       .catch((err) => {
         setRegisterError(true);
@@ -232,7 +237,7 @@ function App() {
         console.log('Код ошибки:', err);
         console.log(`Справочник ошибок ${directoryHTTP}`)
       });
-  };
+  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
