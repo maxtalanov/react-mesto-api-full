@@ -155,5 +155,5 @@ module.exports.getUserMe = (req, res, next) => {
 
 // 8. Запрос на выход пользователя из системы
 module.exports.exit = (req, res) => {
-  res.clearCookie('jwt').status(200).send({ message: 'Успешный выход' });
+  res.clearCookie('jwt').send({ message: 'Успешный выход' });
 };
