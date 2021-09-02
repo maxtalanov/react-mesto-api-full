@@ -75,6 +75,6 @@ router.post('/signup', celebrate({
 }), createUser);
 
 // 9. Выход пользователя
-router.get('/exit', auth, exit);
+router.get('/exit', exit);
 
 module.exports = router;
