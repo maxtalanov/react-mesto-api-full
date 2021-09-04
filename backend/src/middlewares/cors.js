@@ -5,6 +5,7 @@ const allowedCors = [
   'http://localhost:3001',
 ];
 
+// eslint-disable-next-line no-unused-vars
 module.exports = function (req, res, next) {
   const { origin } = req.headers;
   if (allowedCors.includes(origin)) {

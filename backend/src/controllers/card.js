@@ -54,9 +54,9 @@ module.exports.deleteCard = (req, res, next) => {
 // 3. Запрос на добавление лайка карточке
 module.exports.addLikesCard = (req, res, next) => {
   const {
-    _id, name, about, avatar,
+    _id,
   } = req.user;
-  console.log('id', req.user);
+
   const { cardId } = req.params;
   Card.findByIdAndUpdate(
     cardId,

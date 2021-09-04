@@ -110,7 +110,7 @@ module.exports.login = (req, res, next) => {
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        next(new NotFoundError('Запрошенный пользователь не найден'));
+        next(new UnauthorizedErrors('Запрошенный пользователь не найден'));
       }
       return bcrypt.compare(password, user.password)
         .then((isMatched) => {
@@ -131,6 +131,8 @@ module.exports.login = (req, res, next) => {
         .cookie('jwt', token, {
           maxAge: 3600000 * 24 * 7,
           httpOnly: true,
+          sameSite: 'None',
+          secure: true,
         })
         .send({ message: 'Авторизация успешно пройдена' });
     })

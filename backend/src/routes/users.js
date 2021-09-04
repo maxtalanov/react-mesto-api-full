@@ -43,15 +43,15 @@ router.post('/users', auth, celebrate({
 // 5. Обновляет профиль
 router.patch('/users/me', auth, celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
+    name: Joi.string().required().min(2).max(30),
+    about: Joi.string().required().min(2).max(30),
   }),
 }), upDateUser);
 
 // 6. Обновляет аватар
 router.patch('/users/me/avatar', auth, celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().custom(method),
+    avatar: Joi.string().required().custom(method),
   }),
 }), upDataUserAvatar);
 

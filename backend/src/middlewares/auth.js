@@ -6,7 +6,6 @@ const ForbiddenErrors = require('../errors/forbidden-err');
 module.exports = (req, res, next) => {
   // const { authorization } = req.headers;
   const cookiesJWT = req.cookies.jwt;
-  console.log(cookiesJWT, 'cookies');
 
   if (!cookiesJWT) {
     throw new ForbiddenErrors('Необходима авторизация');
