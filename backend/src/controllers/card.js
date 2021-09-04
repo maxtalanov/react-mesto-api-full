@@ -41,7 +41,7 @@ module.exports.deleteCard = (req, res, next) => {
           .then((card) => {
             res.status(200).send({ card });
           })
-          .catch(next)
+          .catch(next);
       }
       next(new ForbiddenErrors('Данная карточка принадлежит не вам'));
     })

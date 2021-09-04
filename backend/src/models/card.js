@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { regUrl } = require('../utils/const');
 
 const cardSchema = new mongoose.Schema({
   name: {
