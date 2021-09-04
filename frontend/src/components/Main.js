@@ -43,7 +43,7 @@ function Main(props) {
               alt={item.name}
               likes={item.likes}
               _id={item._id}
-              ownerId={item.owner._id}
+              ownerId={item.owner}
               onClickCard={props.onCardClick}
               onCardLike={props.onCardLike}
               onCardDelete={props.onCardDelete}
