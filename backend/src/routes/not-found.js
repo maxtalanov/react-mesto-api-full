@@ -6,4 +6,24 @@ router.get('*', noRouter = (req, res, next) => {
   next(new NotFoundError('Данный маршрут не существует'));
 });
 
+router.head('*', noRouter = (req, res, next) => {
+  next(new NotFoundError('Данный маршрут не существует'));
+});
+
+router.put('*', noRouter = (req, res, next) => {
+  next(new NotFoundError('Данный маршрут не существует'));
+});
+
+router.patch('*', noRouter = (req, res, next) => {
+  next(new NotFoundError('Данный маршрут не существует'));
+});
+
+router.post('*', noRouter = (req, res, next) => {
+  next(new NotFoundError('Данный маршрут не существует'));
+});
+
+router.delete('*', noRouter = (req, res, next) => {
+  next(new NotFoundError('Данный маршрут не существует'));
+});
+
 module.exports = router;

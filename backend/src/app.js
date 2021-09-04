@@ -1,4 +1,5 @@
 const express = require('express');
+const router = require('express').Router();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -24,9 +25,6 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
   useUnifiedTopology: true,
 });
 
-// Логер запросов
-app.use(requestLogger);
-
 app.get('/crash-test', () => {
   setTimeout(() => {
     throw new Error('Сервер сейчас упадёт');
@@ -37,6 +35,9 @@ app.get('/crash-test', () => {
 app.use(userRoutes);
 app.use(cardRoutes);
 app.use(router404);
+
+// Логер запросов
+app.use(requestLogger);
 
 // Логер ошибок
 app.use(errorLogger);

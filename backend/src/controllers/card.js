@@ -33,11 +33,15 @@ module.exports.deleteCard = (req, res, next) => {
   const { cardId } = req.params;
   const { _id } = req.user;
 
-  Card.findByIdAndRemove(cardId)
+  Card.findById(cardId)
     .orFail(new Error('NotValidID'))
     .then((card) => {
       if (_id === card.owner._id.toString()) {
-        res.status(200).send({ card });
+        return Card.findByIdAndRemove(card)
+          .then((card) => {
+            res.status(200).send({ card });
+          })
+          .catch(next)
       }
       next(new ForbiddenErrors('Данная карточка принадлежит не вам'));
     })
@@ -48,6 +52,7 @@ module.exports.deleteCard = (req, res, next) => {
       if (err.name === 'CastError') {
         next(new BadRequestErrors('Передан некорректный ID карточки'));
       }
+      next(err);
     });
 };
 

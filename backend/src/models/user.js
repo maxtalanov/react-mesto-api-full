@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const isEmail = require('validator/lib/isEmail');
-
-// eslint-disable-next-line
-const regUrl = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\.-]*)*\/?$/;
+const { regUrl } =  require('../utils/const');
 
 const userSchema = new mongoose.Schema({
   name: {
