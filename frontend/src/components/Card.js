@@ -6,6 +6,7 @@ function Card({ onClickCard, onCardLike, onCardDelete, ownerId, _id, likes, src,
 
   const currentUser = React.useContext(CurrentUserContext);
   const isOwn = ownerId === currentUser._id;
+  console.log(isOwn, 'делл')
   const cardDeleteBtn = (
     `trash ${isOwn ? 'trash_btn_visible' : 'trash_btn_hidden'}`
   );
