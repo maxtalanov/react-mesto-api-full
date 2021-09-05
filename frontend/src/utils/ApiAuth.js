@@ -46,7 +46,7 @@ export const getContent = () => {
 export  const userExit = () => {
   return fetch(`${BASE_URL}/exit`, {
     method: "GET",
-    // credentials: 'include',
+    credentials: 'include',
     headers,
   }).then(checkResponse)
 }

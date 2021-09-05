@@ -36,8 +36,7 @@ function App() {
   const history =  useHistory();
 
   React.useEffect(() => {
-    tokenCheck()
-    console.log('token ok');
+    tokenCheck();
   }, []);
 
   React.useEffect(() => {
@@ -48,20 +47,26 @@ function App() {
 
     //Карточки инит
   React.useEffect(()=> {
+    getCards()
+  }, []);
 
-    //запрос за карточками
+  //Информация о пользователе
+  React.useEffect(() => {
+    infoUser();
+  },[]);
+
+  const getCards = () => {
     api.getIntalCards(cards)
       .then(cards =>{
         setCards(cards);
       })
       .catch((err) => {
         console.log('Код ошибки:', err); // выведем ошибку в консоль
-        console.log(`Проверьте причину в справочнике по адресу: ${directoryHTTP}`)
-      })
-  }, []);
+        console.log(`Проверьте причину в справочнике по адресу: ${directoryHTTP}`);
+      });
+  }
 
-  //Информация о пользователе
-  React.useEffect(() => {
+  const infoUser = () => {
     api.getInfoUser(currentUser)
       .then(currentUser => {
         setEmail(currentUser.email)
@@ -70,8 +75,8 @@ function App() {
       .catch((err) => {
         console.log('Код ошибки:', err); // выведем ошибку в консоль
         console.log(`Проверьте причину в справочнике по адресу: ${directoryHTTP}`)
-      })
-  },[])
+      });
+  }
 
   // Проверка токена на сервере
   const tokenCheck = () => {
@@ -99,8 +104,6 @@ function App() {
   }
 
   function handleCardLike(card) {
-    console.log(card, 'handleCardLike')
-
     // Снова проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
@@ -128,7 +131,6 @@ function App() {
 
   function handleCardClick(card){
     setSelectedCard(card);
-    console.log(card)
   }
 
   function handleEditAvatarClick() {
@@ -157,7 +159,6 @@ function App() {
   }
 
   function handleUpdateAvatar(editAvatar) {
-      console.log(editAvatar)
     api.upAvatar(editAvatar)
       .then(newDataUser => {
         setCurrentUser(newDataUser);
@@ -170,7 +171,6 @@ function App() {
   }
 
   function handleAddCard(addNewCardData) {
-    console.log(addNewCardData);
     api.addNewCard(addNewCardData)
       .then(newCard => {
         setCards([newCard, ...cards]);
@@ -193,10 +193,10 @@ function App() {
     return ApiAuth
       .authorize(data)
       .then(({ token }) => {
-        console.log(`Авторизации пройдена, log: ${token}`);
-        localStorage.setItem('jwt', token);
         setLoggedIn(true);
         setEmail(data.email);
+        infoUser();
+        getCards()
         history.push('/profile')
       })
       .catch((err) => {
@@ -207,12 +207,9 @@ function App() {
   }
 
   const onRegister = (data) => {
-    //console.log(`Попытка регистрации, log: ${data}`)
-
     return ApiAuth
       .register(data)
       .then((res) => {
-        //console.log(`Регистрация пройдена, log: ${res}`);
         setRegisterOk(true);
       })
       .catch((err) => {
@@ -229,6 +226,8 @@ function App() {
       .then(message => {
         setLoggedIn(false);
         setEmail('');
+        setCurrentUser('');
+        setCards([]);
         console.log(message)
       })
       .catch((err) => {
