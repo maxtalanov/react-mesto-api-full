@@ -1,10 +1,9 @@
 const express = require('express');
-const router = require('express').Router();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const { errors } = require('celebrate');
-const cors = require('./middlewares/cors');
+const { cors } = require('./middlewares/cors');
 const { userRoutes, cardRoutes, router404 } = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -47,7 +46,6 @@ app.use(errors());
 
 // Централизованный обработчик ошибок
 app.use((err, req, res, next) => {
-  console.log(err);
   const { statusCode = 500, message } = err;
   res
     .status(statusCode)

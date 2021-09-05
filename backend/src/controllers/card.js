@@ -36,13 +36,11 @@ module.exports.deleteCard = (req, res, next) => {
   Card.findById(cardId)
     .orFail(new Error('NotValidID'))
     .then((card) => {
-      console.log(_id.toString() === card.owner._id.toString());
       if (_id === card.owner._id.toString()) {
-        return Card.findByIdAndRemove(card)
-          .then((card) => {
-            res.status(200).send({ card });
-          })
-          .catch(next);
+        Card.findByIdAndRemove(card)
+          .then((cardRemove) => {
+            res.status(200).send({ cardRemove });
+          });
       }
       next(new ForbiddenErrors('Данная карточка принадлежит не вам'));
     })
