@@ -1,11 +1,20 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
+const validator = require('validator');
 const auth = require('../middlewares/auth');
-const { regUrl } = require('../utils/const');
 
 const {
   getUser, getUsers, createUser, upDateUser, upDataUserAvatar, login, getUserMe, exit,
 } = require('../controllers/users');
+
+// 0.1: метод проверки URL на валидность;
+const method = (value) => {
+  const result = validator.isURL(value, { require_protocol: true });
+  if (result) {
+    return value;
+  }
+  throw new Error('URL в веден не корректно');
+};
 
 // 1. Получить мои данные
 router.get('/users/me', auth, getUserMe);
@@ -25,7 +34,7 @@ router.post('/users', auth, celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string().pattern(regUrl),
+    avatar: Joi.string().custom(method),
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
   }),
@@ -42,7 +51,7 @@ router.patch('/users/me', auth, celebrate({
 // 6. Обновляет аватар
 router.patch('/users/me/avatar', auth, celebrate({
   body: Joi.object().keys({
-    avatar: Joi.string().required().pattern(regUrl),
+    avatar: Joi.string().required().custom(method),
   }),
 }), upDataUserAvatar);
 
@@ -59,7 +68,7 @@ router.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    avatar: Joi.string().pattern(regUrl),
+    avatar: Joi.string().required().custom(method),
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8),
   }),

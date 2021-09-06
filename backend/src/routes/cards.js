@@ -1,10 +1,19 @@
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
+const validator = require('validator');
 const auth = require('../middlewares/auth');
-const { regUrl } = require('../utils/const');
 const {
   createCard, getCards, deleteCard, addLikesCard, deleteLikesCard,
 } = require('../controllers/card');
+
+// 0.1: метод проверки URL на валидность;
+const method = (value) => {
+  const result = validator.isURL(value, { require_protocol: true });
+  if (result) {
+    return value;
+  }
+  throw new Error('URL в веден не корректно');
+};
 
 // 1. Возвращает все карточки
 router.get('/cards', auth, getCards);
@@ -13,7 +22,7 @@ router.get('/cards', auth, getCards);
 router.post('/cards', auth, celebrate({
   body: Joi.object().keys({
     name: Joi.string().required().min(2).max(30),
-    link: Joi.string().required().pattern(regUrl),
+    link: Joi.string().required().custom(method),
   }),
 }), createCard);
 
