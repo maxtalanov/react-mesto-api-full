@@ -5,6 +5,7 @@ const NotFoundError = require('../errors/not-found-err');
 const BadRequestErrors = require('../errors/bad-request-err');
 const Conflict = require('../errors/conflict-err');
 const UnauthorizedErrors = require('../errors/unauthorized-err');
+
 const { NODE_ENV, JWT_SECRET, JWT_DEV = 'some-secret-key' } = process.env;
 const secretKey = NODE_ENV === 'production' ? JWT_SECRET : JWT_DEV;
 

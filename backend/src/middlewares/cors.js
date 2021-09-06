@@ -6,7 +6,7 @@ const allowedCors = [
 ];
 
 // eslint-disable-next-line no-unused-vars
-module.exports = function (req, res, next) {
+module.exports = (req, res, next) => {
   const { origin } = req.headers;
   if (allowedCors.includes(origin)) {
     res.header('Access-Control-Allow-Origin', origin);
