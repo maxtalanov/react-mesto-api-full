@@ -41,8 +41,9 @@ module.exports.deleteCard = (req, res, next) => {
           .then((cardRemove) => {
             res.status(200).send({ cardRemove });
           });
+      } else {
+        next(new ForbiddenErrors('Данная карточка принадлежит не вам'));
       }
-      next(new ForbiddenErrors('Данная карточка принадлежит не вам'));
     })
     .catch((err) => {
       if (err.message === 'NotValidID') {
