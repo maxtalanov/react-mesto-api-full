@@ -36,7 +36,7 @@ module.exports.deleteCard = (req, res, next) => {
   Card.findById(cardId)
     .orFail(new Error('NotValidID'))
     .then((card) => {
-      if (_id === card.owner._id.toString()) {
+      if (_id === card.owner._id) {
         Card.findByIdAndRemove(card)
           .then((cardRemove) => {
             res.status(200).send({ cardRemove });
@@ -57,9 +57,7 @@ module.exports.deleteCard = (req, res, next) => {
 
 // 3. Запрос на добавление лайка карточке
 module.exports.addLikesCard = (req, res, next) => {
-  const {
-    _id,
-  } = req.user;
+  const { _id } = req.user;
 
   const { cardId } = req.params;
   Card.findByIdAndUpdate(
