@@ -59,8 +59,8 @@ module.exports.deleteCard = (req, res, next) => {
 // 3. Запрос на добавление лайка карточке
 module.exports.addLikesCard = (req, res, next) => {
   const { _id } = req.user;
-
   const { cardId } = req.params;
+
   Card.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: _id } },
@@ -90,7 +90,13 @@ module.exports.deleteLikesCard = (req, res, next) => {
     { new: true },
   )
     .orFail(new Error('NotValidID'))
-    .then((cardNew) => res.status(200).send({ cardNew }))
+    .then((cardNew) => res.status(200).send({
+      likes: [cardNew.likes._id],
+      _id: cardNew._id,
+      name: cardNew.name,
+      link: cardNew.link,
+      owner: cardNew.owner,
+    }))
     .catch((err) => {
       if (err.message === 'NotValidID') {
         next(new NotFoundError('Карточка с таким ID не найдена в базе'));
