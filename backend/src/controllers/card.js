@@ -91,7 +91,7 @@ module.exports.deleteLikesCard = (req, res, next) => {
   )
     .orFail(new Error('NotValidID'))
     .then((cardNew) => res.status(200).send({
-      likes: [cardNew.likes._id],
+      likes: cardNew.likes._id,
       _id: cardNew._id,
       name: cardNew.name,
       link: cardNew.link,
