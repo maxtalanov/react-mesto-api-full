@@ -68,7 +68,7 @@ module.exports.addLikesCard = (req, res, next) => {
   )
     .populate(['likes'])
     .orFail(new Error('NotValidID'))
-    .then((card) => res.status(200).send(card))
+    .then((card) => res.status(200).send({ card }))
     .catch((err) => {
       if (err.message === 'NotValidID') {
         next(new NotFoundError('Карточка с таким ID не найдена в базе'));
@@ -90,13 +90,7 @@ module.exports.deleteLikesCard = (req, res, next) => {
     { new: true },
   )
     .orFail(new Error('NotValidID'))
-    .then((cardNew) => res.status(200).send({
-      likes: cardNew.likes._id,
-      _id: cardNew._id,
-      name: cardNew.name,
-      link: cardNew.link,
-      owner: cardNew.owner,
-    }))
+    .then((card) => res.status(200).send({ card }))
     .catch((err) => {
       if (err.message === 'NotValidID') {
         next(new NotFoundError('Карточка с таким ID не найдена в базе'));
