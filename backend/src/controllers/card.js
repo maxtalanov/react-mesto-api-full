@@ -66,7 +66,6 @@ module.exports.addLikesCard = (req, res, next) => {
     {$addToSet: {likes: _id}},
     {new: true },
   )
-    .populate(['likes'])
     .orFail(new Error('NotValidID'))
     .then((card) => res.status(200).send(card))
     .catch((err) => {
@@ -89,7 +88,6 @@ module.exports.deleteLikesCard = (req, res, next) => {
     {$pull: {likes: _id}},
     {new: true },
   )
-    .populate(['likes'])
     .orFail(new Error('NotValidID'))
     .then((card) => res.status(200).send(card))
     .catch((err) => {
