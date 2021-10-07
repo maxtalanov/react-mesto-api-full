@@ -64,7 +64,7 @@ module.exports.addLikesCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     cardId,
     {$addToSet: {likes: _id}},
-    {new: true, lean: true },
+    {new: true },
   )
     .populate(['likes'])
     .orFail(new Error('NotValidID'))
@@ -87,7 +87,7 @@ module.exports.deleteLikesCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     cardId,
     {$pull: {likes: _id}},
-    {new: true, lean: true },
+    {new: true },
   )
     .populate(['likes'])
     .orFail(new Error('NotValidID'))
