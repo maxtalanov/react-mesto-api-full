@@ -3,16 +3,17 @@ import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Card({ onClickCard, onCardLike, onCardDelete, ownerId, _id, likes, src, alt, title}) {
-
   const currentUser = React.useContext(CurrentUserContext);
-  console.log(ownerId, currentUser._id)
   const isOwn = ownerId === currentUser._id;
-  console.log(isOwn, 'делл')
+  const isLiked = likes.some((i) => i._id === currentUser._id);
+
   const cardDeleteBtn = (
     `trash ${isOwn ? 'trash_btn_visible' : 'trash_btn_hidden'}`
   );
-  const isLiked = likes.some(i => i._id === currentUser._id);
-  const cardLikeBtnActive = `card__btn-like ${isLiked ? 'card__btn-like_active' : ''}`;
+
+  const cardLikeBtnActive = (
+    `card__btn-like ${isLiked ? 'card__btn-like_active' : ''}`
+  );
 
   function clickImg() {
     onClickCard({ src, title, alt });
@@ -23,6 +24,10 @@ function Card({ onClickCard, onCardLike, onCardDelete, ownerId, _id, likes, src,
   function removeCard() {
     onCardDelete({ _id });
   }
+
+  console.log(likes, 'Массив лайков');
+  console.log(currentUser, 'данные юсера');
+  console.log(isLiked, 'Состояние лайка');
 
   return(
     <figure className="card">
