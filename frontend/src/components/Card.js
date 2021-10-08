@@ -5,15 +5,13 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 function Card({ onClickCard, onCardLike, onCardDelete, ownerId, _id, likes, src, alt, title}) {
   const currentUser = React.useContext(CurrentUserContext);
   const isOwn = ownerId === currentUser._id;
-  const isLiked = likes.some((i) => i._id === currentUser._id);
+  const isLiked = likes.some((i) => i === currentUser._id);
 
   const cardDeleteBtn = (
     `trash ${isOwn ? 'trash_btn_visible' : 'trash_btn_hidden'}`
   );
 
-  const cardLikeBtnActive = (
-    `card__btn-like ${isLiked ? 'card__btn-like_active' : ''}`
-  );
+  const cardLikeBtnActive = `card__btn-like ${isLiked ? 'card__btn-like_active' : ''}`;
 
   function clickImg() {
     onClickCard({ src, title, alt });
