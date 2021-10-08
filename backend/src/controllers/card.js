@@ -5,10 +5,10 @@ const ForbiddenErrors = require('../errors/forbidden-err');
 
 // 1. Запрос добавление карточки пользовотеля
 module.exports.createCard = (req, res, next) => {
-  const {name, link} = req.body;
-  const {_id} = req.user;
+  const { name, link } = req.body;
+  const { _id } = req.user;
 
-  Card.create({name, link, owner: _id})
+  Card.create({ name, link, owner: _id })
     .then((card) => res.status(200).send(card))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -30,8 +30,8 @@ module.exports.getCards = (req, res, next) => {
 
 // 3. Запрос удаления карточки
 module.exports.deleteCard = (req, res, next) => {
-  const {cardId} = req.params;
-  const {_id} = req.user;
+  const { cardId } = req.params;
+  const { _id } = req.user;
 
   Card.findById(cardId)
     .orFail(new Error('NotValidID'))
@@ -39,7 +39,7 @@ module.exports.deleteCard = (req, res, next) => {
       if (_id === card.owner.toString()) {
         Card.findByIdAndRemove(card)
           .then((cardRemove) => {
-            res.status(200).send({cardRemove});
+            res.status(200).send({ cardRemove });
           });
       } else {
         next(new ForbiddenErrors('Данная карточка принадлежит не вам'));
@@ -58,13 +58,13 @@ module.exports.deleteCard = (req, res, next) => {
 
 // 3. Запрос на добавление лайка карточке
 module.exports.addLikesCard = (req, res, next) => {
-  const {_id} = req.user;
-  const {cardId} = req.params;
+  const { _id } = req.user;
+  const { cardId } = req.params;
 
   Card.findByIdAndUpdate(
     cardId,
-    {$addToSet: {likes: _id}},
-    {new: true },
+    { $addToSet: { likes: _id } },
+    { new: true },
   )
     .orFail(new Error('NotValidID'))
     .then((card) => res.status(200).send(card))
@@ -80,13 +80,13 @@ module.exports.addLikesCard = (req, res, next) => {
 
 // 3. Запрос на удаление лайка карточке
 module.exports.deleteLikesCard = (req, res, next) => {
-  const {_id} = req.user;
-  const {cardId} = req.params;
+  const { _id } = req.user;
+  const { cardId } = req.params;
 
   Card.findByIdAndUpdate(
     cardId,
-    {$pull: {likes: _id}},
-    {new: true },
+    { $pull: { likes: _id } },
+    { new: true },
   )
     .orFail(new Error('NotValidID'))
     .then((card) => res.status(200).send(card))
