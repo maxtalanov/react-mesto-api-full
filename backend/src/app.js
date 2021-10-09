@@ -31,13 +31,13 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
+// Логер запросов
+app.use(requestLogger);
+
 // Обработчики роутов
 app.use(userRoutes);
 app.use(cardRoutes);
 app.use(router404);
-
-// Логер запросов
-app.use(requestLogger);
 
 // Логер ошибок
 app.use(errorLogger);
