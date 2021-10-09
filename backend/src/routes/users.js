@@ -29,17 +29,6 @@ router.get('/users/:userId', auth, celebrate({
   }),
 }), getUser);
 
-// 4. Создаёт пользователя
-router.post('/users', auth, celebrate({
-  body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().custom(method),
-    email: Joi.string().required().email(),
-    password: Joi.string().required().min(8),
-  }),
-}), createUser);
-
 // 5. Обновляет профиль
 router.patch('/users/me', auth, celebrate({
   body: Joi.object().keys({
