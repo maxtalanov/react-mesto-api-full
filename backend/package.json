@@ -1,8 +1,8 @@
 {
   "name": "mesto-express",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Мини соцюсеть",
+  "main": "app.js",
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
