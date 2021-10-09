@@ -78,7 +78,8 @@ module.exports.createUser = (req, res, next) => {
           next(new Conflict('Что-то пошло не так'));
         }
         next(err);
-      }));
+      })
+      .catch(next));
 };
 
 // 4. Запрос на обновление данных пользователя;
