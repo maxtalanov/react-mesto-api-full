@@ -1,6 +1,6 @@
 const allowedCors = [
-  'https://mesto-new.nomoredomains.club',
-  'http://mesto-new.nomoredomains.club',
+  'https://maxtalanov.ru',
+  'https://maxtalanov.ru',
   'http://localhost:3000',
   'http://localhost:3001',
 ];
