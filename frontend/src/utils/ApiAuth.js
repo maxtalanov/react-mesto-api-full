@@ -5,7 +5,7 @@ const headers = {
   'Access-Control-Allow-Credentials': true,
 };
 
-export const BASE_URL = 'https://api.mesto-new.nomoredomains.club';
+export const BASE_URL = 'https://api-mesto.maxtalanov.ru';
 // export const BASE_URL = 'http://api.mesto-new.nomoredomains.club';
 // export const BASE_URL = 'http://localhost:3000';
 
