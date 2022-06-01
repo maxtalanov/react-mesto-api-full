@@ -1,5 +1,5 @@
 const allowedCors = [
-  'https://maxtalanov.ru',
+  'https://mesto.maxtalanov.ru',
   'https://maxtalanov.ru',
   'http://localhost:3000',
   'http://localhost:3001',
